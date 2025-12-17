@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Fishermen - Register</title>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/common.css}">
+        <link rel="stylesheet" th:href="@{/css/home.css}">
+        <link rel="stylesheet" th:href="@{/css/forms.css}">
+    </head>
+    <body>
+
+        <main class="welcome-message">
+            <div class="form-container">
+
+                <div class="back-btn-container">
+                    <a href="/" class="back-btn">
+                        <span class="anchor-icon">⚓</span> Back to Home
+                    </a>
+                </div>
+
+                <h2>Register</h2>
+                <form action="/register" method="POST" th:object="${registerRequest}">
+
+                    <h3 th:if="${isExists}" class="text-center mt-2">
+                        <span class="badge badge-pill badge-dark text-danger">User already exists</span>
+                    </h3>
+
+                    <label for="username">Username</label>
+                    <input th:field="*{username}" type="text" id="username" name="username">
+                    <p th:if="${#fields.hasErrors('username')}" class="text-light">Username must be at least 4 characters</p>
+
+                    <label for="password">Password</label>
+                    <input th:field="*{password}" type="password" id="password" name="password"/>
+                    <p th:if="${#fields.hasErrors('password')}" class="text-center">Password must be at least 4 characters</p>
+
+                    <label for="nickname">Nickname</label>
+                    <input th:field="*{nickname}" type="text" id="nickname" name="nickname"/>
+                    <p th:if="${#fields.hasErrors('nickname')}" class="text-info">Nickname must be at least 4 characters</p>
+
+                    <label for="experience" class="h3 mb-2">Experience</label>
+                    <select id="experience" name="experience" th:field="*{experience}">
+                        <option value="">Select experience</option>
+                        <option th:each="experience : ${T(app.fisherman.enums.Experience).values()}"
+                                th:value="${experience}" th:text="${experience}">text
+                        </option>
+                    </select>
+                    <p th:if="${#fields.hasErrors('experience')}" class="text-light">You must select experience option</p>
+
+                    <button type="submit" class="form-submit-btn">Register</button>
+                </form>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div>&copy; SoftUni Exam - Spring Fundamentals. All rights reserved.</div>
+        </footer>
+    </body>
+</html>
