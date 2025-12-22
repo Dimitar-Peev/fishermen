@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Fishermen</title>
+        <link rel="stylesheet" th:href="@{/css/main.css}">
+        <link rel="stylesheet" th:href="@{/css/slide-menu.css}">
+    </head>
+    <body>
+
+        <main class="main-content-index">
+            <div class="profile-section">
+                <div class="profile-section-card">
+                    <div class="single-section-box">
+                        <div class="profile-header">
+                            <img th:src="${#strings.isEmpty(user.imageUrl) ? '/images/fisherman.png' : user.imageUrl}"
+                                 src="/images/fisherman.png" alt="Profile Picture" class="profile-img">
+                            <h2 th:text="${user.nickname}" class="profile-name">Fisherman 1</h2>
+                        </div>
+                        <div class="profile-info">
+                            <div class="details-section-container">
+                                <strong>Username: </strong>
+                                <section th:text="${user.username}">Kormoran</section>
+                            </div>
+                            <div class="details-section-container">
+                                <strong>Experience: </strong>
+                                <section th:text="${user.experience}">INTERMEDIATE</section>
+                            </div>
+                            <div class="details-section-container">
+                                <strong>Cash: </strong>
+                                <section th:text="${user.cash} + ' $'">200 $</section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <div class="profile-section-card">
+                        <div class="details-section-container">
+                            <strong>Id: </strong>
+                            <section th:text="${user.id}">2f36f38d-e2bc-4e90-be90-25fdc8016c9d</section>
+                        </div>
+                    </div>
+                    <div class="profile-section-card">
+                        <div class="buttons">
+                            <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="edit-btn" style="padding: 0.7em">
+                                Edit Profile
+                            </a>
+                            <a href="/logout" class="edit-btn">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="items-section-card">
+                <div class="fish-section-card">
+                    <a href="/pick-random-fish" class="hero-btn">🚢 Pick a random fish!</a>
+                </div>
+                <div class="sale-section-card">
+                    <div>
+                        <section>
+                            <h2>Fishes for sale</h2>
+                        </section>
+                    </div>
+                    <div class="slider-container vertical">
+                        <section class="fish-slider vertical">
+
+                            <div class="slide" th:each="fish : ${fishesForSale}">
+
+                                <span th:if="${fish.type} == EATABLE" class="badge eatable eatable-for-sale">Eatable</span>
+                                <span th:if="${fish.type} == ORNAMENTAL" class="badge ornamental">Ornamental</span>
+
+                                <span th:text="'Price: ' + ${fish.price} + ' $'" class="price-badge">Price: 30</span>
+
+                                <img th:src="${fish.imageUrl}" src="/images/salmon.png" alt="fish species"/>
+
+                                <h4 th:text="${fish.species}">Salmon</h4>
+
+                                <form th:if="${fish.owner.id} != ${user.id}"
+                                      th:action="@{'/fish/' + ${fish.id} + '/buy'}"
+                                      method="post">
+                                    <button type="submit" class="for-sale-btn buy-btn"
+                                            style="background: transparent; cursor: pointer">
+                                        Buy
+                                    </button>
+                                </form>
+                            </div>
+                        </section>
+                        <div class="fade fade-bottom"></div>
+                        <div class="fade fade-top"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="items-section-card">
+                <div class="catch-section">
+                    <div class="fish-section-card">
+                        <div>
+                            <section><h2>Fishes</h2></section>
+                        </div>
+                        <div class="slider-container">
+                            <div class="fade fade-left"></div>
+                            <section class="fish-slider" id="slider">
+
+                                <div class="slide" th:each="fish : ${myFishes}">
+
+                                    <span th:if="${fish.type} == EATABLE" class="badge eatable">Eatable</span>
+                                    <span th:if="${fish.type} == ORNAMENTAL" class="badge ornamental">Ornamental</span>
+
+                                    <img th:src="${fish.imageUrl}" src="/images/snapper.png" alt="Snapper"/>
+
+                                    <h4 th:text="${fish.species}">Snapper</h4>
+
+                                    <h4 class="weight" th:text="${fish.weight} + ' grams'">1000 grams</h4>
+
+                                    <form th:if="${fish.forSale == false}"
+                                          th:action="@{'/fish/' + ${fish.id} + '/sale'}"
+                                          method="post">
+                                        <button type="submit" class="for-sale-btn"
+                                                style="background: transparent; cursor: pointer">
+                                            For sale
+                                        </button>
+                                    </form>
+
+                                    <p th:if="${fish.forSale} == true" class="for-sale-btn offered">Offered</p>
+                                </div>
+                            </section>
+                            <div class="fade fade-right"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div>&copy; SoftUni Exam - Spring Fundamentals. All rights reserved.</div>
+        </footer>
+
+    </body>
+</html>
