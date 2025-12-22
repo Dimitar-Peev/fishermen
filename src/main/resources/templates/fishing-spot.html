@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Fishermen</title>
+        <link rel="stylesheet" th:href="@{/css/common.css}">
+        <link rel="stylesheet" th:href="@{/css/home.css}">
+        <link rel="stylesheet" th:href="@{/css/forms.css}">
+    </head>
+    <body>
+
+        <main class="welcome-message">
+            <div class="form-container">
+
+                <div class="back-btn-container">
+                    <a href="/home" class="back-btn"><span class="anchor-icon">⚓</span> Back to Home</a>
+                </div>
+
+                <h2>Fishery</h2>
+
+                <div id="result" class="fish-container">
+                    <form th:action="@{/catch-fish}" method="post">
+                        <div class="fish-result">
+
+                            <img th:src="${fish.imageUrl}" alt="Fish">
+                            <div>
+                                <h3>Congratulations,</h3>
+                                <h3>You caught a</h3>
+
+                                <h2 th:text="${fish.species}"></h2>
+
+                                <p th:text="'WEIGHT: ' + ${fish.weight + ' GRAMS'}"></p>
+                            </div>
+                            <!-- TODO: ID of the fish -->
+                            <input type="hidden" name="id" value="">
+                            <button type="submit" id="takeOutBtn">Take out</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div>&copy; SoftUni Exam - Spring Fundamentals. All rights reserved.</div>
+        </footer>
+
+    </body>
+</html>
